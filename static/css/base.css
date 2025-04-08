@@ -1,0 +1,16 @@
+body {
+    margin: 0%;
+    padding: 0%;
+    background-color: beige;
+}
+
+#navThais {
+    background-color: darkred;
+    width: 100%;
+    height: 60px;
+}
+
+#logothais {
+    width: 100px;
+    height: inherit;
+}
