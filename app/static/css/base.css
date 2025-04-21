@@ -1,0 +1,52 @@
+body {
+    margin: 0%;
+    padding: 0%;
+}
+
+.contenedorCentro {
+    display: flex;
+    align-items: center;
+    background-color: gainsboro;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contenedorCagitas {
+    display: grid;
+    grid-template-columns:  repeat(5,auto);
+    gap: 10px;
+ 
+}
+
+.cajitas {
+width: 53px;
+height: 40px;
+background: #FFFFFF;
+border: 5px solid #F70A0A;
+border-radius: 10px;
+
+}
+.tituloPagina {
+width: 400px;
+height: 80px;
+background: #FFFFFF;
+border: 5px solid #FF0707;
+border-radius: 100px;
+justify-content: center;
+display: flex;
+align-items: center;
+}
+
+
+
+#navThais {
+    background-color: darkred;
+    width: 100%;
+    height: 60px;
+}
+
+#logothais {
+    width: 100px;
+    height: inherit;
+}
