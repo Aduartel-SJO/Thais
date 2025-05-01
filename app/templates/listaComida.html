@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Lista Comida y bebida{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/listaComida.css') }}"
+rel="stylesheet"
+/>
+<!-- Botón para abrir el modal -->
+<button id="abrirModal">Añadir</button>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <form method="post" action="/tasksList/EditTask" enctype="multipart/form-data">
+      <input type="hidden" id="tipo" name="tipo" value="Comida">
+      <label for="comidaNombre">Nuevo nombre de la tarea:</label><br>
+      <input type="text" id="comidaNombre" name="comidaNombre" required>
+      <br>
+      <label for="Alias">Alias:</label><br>
+      <input type="text" id="Alias" name="Alias" required>
+      <br>
+      <label for="precio">Precio:</label><br>
+      <input type="text" id="precio" name="precio" required>
+      <br>
+      <label for="imagen">Imagen:</label><br>
+      <input type="file" name="imagen" accept="image/*">
+      
+      <br><br>
+      <button id="patata"type="submit">Guardar</button>
+      <button type="button" id="cerrarModal">Cerrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- Script para manejar el modal -->
+<script>
+document.getElementById('abrirModal').addEventListener('click', () => {
+  document.getElementById('modal').style.display = 'flex';
+});
+
+document.getElementById('cerrarModal').addEventListener('click', () => {
+  document.getElementById('modal').style.display = 'none';
+});
+</script>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Alias</th>
+                <th>Precio</th>
+                <th>Tipo</th>
+                <th>Ingredientes</th>
+                <th>Acciones</th>
+              </tr>
+    
+        </thead>
+        <tbody>
+            {%for comida in comidas%}
+            <tr>
+                <td>{{comida.nombre}}</td>
+                <td>{{comida.alias}}</td>
+                <td>{{comida.precio}}</td>
+                <td>{{comida.tipo}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>   
+
+
+
+{% endblock %}

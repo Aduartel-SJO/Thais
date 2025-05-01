@@ -10,5 +10,3 @@ class Comida(db.Model):
     precio = db.Column(db.Numeric(5, 2), nullable=False)
     imagen = db.Column(db.TEXT)
 
-    ingredientes = db.relationship('Ingrediente', backref='comida', cascade='all, delete')
-    comida_nota = db.relationship('ComidaNota', backref='comida', cascade='all, delete')

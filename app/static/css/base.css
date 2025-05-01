@@ -1,6 +1,10 @@
 body {
     margin: 0%;
-    padding: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
     height: 100%;
 }
 
@@ -11,25 +15,28 @@ body {
     align-content: center;
     justify-content: center;
     flex-direction: column;
-    width: 100% !important;
-    height: 100% !important;
+
 }
 
 .contenedorCagitas {
     display: grid;
     grid-template-columns:  repeat(5,auto);
-    gap: 10px;
+    gap: 20px;
  
 }
 
 .cajitas {
-width: 53px;
-height: 40px;
+width: 5vw;
+height: 5vw;
 background: #FFFFFF;
 border: 5px solid #F70A0A;
 border-radius: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
 
 }
+
 .tituloPagina {
 width: 400px;
 height: 80px;
@@ -46,7 +53,7 @@ align-items: center;
 #navThais {
     background-color: darkred;
     width: 100%;
-    height: 60px;
+    height: 8vh;
     
 }
 

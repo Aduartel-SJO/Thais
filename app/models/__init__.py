@@ -5,7 +5,7 @@ db = SQLAlchemy()
 # Datos del servidor MySQL para nosotros
 USER = "AntonioThais"
 PASSWORD = "1234"
-HOST = "192.168.8.108"  # Puede ser una IP o un dominio
+HOST = "172.18.27.252"  # Puede ser una IP o un dominio
 PORT = "3306"  # Puerto por defecto de MySQL
 DATABASE = "thais"
 

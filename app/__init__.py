@@ -8,6 +8,9 @@ def create_app():
     # Importar y registrar blueprints
     from .routes.dashboard import dashboard_bp
     from .routes.auth import auth_bp
+    from .routes.admin import admin_bp
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, urlprefix='/')
+
     return app

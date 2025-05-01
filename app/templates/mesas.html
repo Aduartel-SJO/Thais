@@ -1,21 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Calendario Dieta{% endblock %}
+{% block title %}Mesas{% endblock %}
 {% block content %}
 <div class="contenedorCentro">
     <div class="contenedorCagitas">
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
-        <div class="cajitas"></div>
+        {% for mesa in Mesas%}
+        <a href="{{ url_for('dashboard.crearNota', id_mesa=mesa.id_mesa, nombre=mesa.nombre) }}"><div class="cajitas"><b><h3>{{mesa.nombre}}</h3></b></div></a>
+        {% endfor %}
     
     </div>
-        <!-- introducir el for de la mesas aqui -->
     <div class="tituloPagina">
         <b><h1>hola {{usuario.nombre}}</h1></b>
     </div>
