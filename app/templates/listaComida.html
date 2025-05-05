@@ -32,40 +32,44 @@ rel="stylesheet"
   </div>
 </div>
 
+
+
+<div class="tabla-responsive">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Alias</th>
+        <th>Precio</th>
+        <th>Tipo</th>
+        <th>Ingredientes</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for comida in comidas%}
+      <tr>
+          <td>{{comida.nombre}}</td>
+          <td>{{comida.alias}}</td>
+          <td>{{comida.precio}}</td>
+          <td>{{comida.tipo}}</td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+
+
 <!-- Script para manejar el modal -->
 <script>
-document.getElementById('abrirModal').addEventListener('click', () => {
-  document.getElementById('modal').style.display = 'flex';
-});
-
-document.getElementById('cerrarModal').addEventListener('click', () => {
-  document.getElementById('modal').style.display = 'none';
-});
+  document.getElementById('abrirModal').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'flex';
+  });
+  
+  document.getElementById('cerrarModal').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'none';
+  });
 </script>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Alias</th>
-                <th>Precio</th>
-                <th>Tipo</th>
-                <th>Ingredientes</th>
-                <th>Acciones</th>
-              </tr>
-    
-        </thead>
-        <tbody>
-            {%for comida in comidas%}
-            <tr>
-                <td>{{comida.nombre}}</td>
-                <td>{{comida.alias}}</td>
-                <td>{{comida.precio}}</td>
-                <td>{{comida.tipo}}</td>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>   
-
-
 
 {% endblock %}

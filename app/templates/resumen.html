@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Calendario Dieta{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/resumen.css') }}"
+rel="stylesheet"
+/>
+
+<div class="tituloPagina">
+    <b><h1>Resumen</h1></b>
+</div>
+<form action="">
+    <div>
+        <div>
+            <label for="desde">Desde:</label><br>
+            <input id="desde" name="desde" type="date">
+    
+        </div>
+        <div>
+            <label for="hasta">Hasta:</label><br>
+            <input id="hasta" name="hasta" type="date">
+            
+        </div>
+    </div>
+
+</form>
+<div id="contenedorResumen">
+    <div>
+        <div><h2>Numero de mesas</h2></div>
+        <div class="contenedorImagen">
+            <img src="/static/img/papeles_apliados.png" class="imagenFondo" alt="Mesa redonda">
+            <span class="textoEncima">12</span>
+          </div>
+    </div>
+    <div>
+        <div><h2>Numero de mesas</h2></div>
+        <div class="contenedorImagen">
+            <img src="/static/img/mesa_redonda.png" class="imagenFondo" alt="Mesa redonda">
+            <span class="textoEncima">12</span>
+          </div>   
+    </div>
+    <div>
+        <div><h2>Numero de mesas</h2></div>
+        <div class="contenedorImagen">
+            <img src="/static/img/monedas.png" class="imagenFondo" alt="Mesa redonda">
+            <span class="textoEncima">12€</span>
+          </div>   
+    </div>
+</div>
+
+
+{% endblock %}

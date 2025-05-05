@@ -1,0 +1,30 @@
+.tabla-responsive {
+    width: 96vw;
+    max-width: 80%;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 0.8vw;
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+
+  thead {
+    background-color: #343a40;
+    color: white;
+  }
+
+  th, td {
+    padding: 1.2vh 1vw;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 1.1vw;
+  }
+
+  tbody tr:hover {
+    background-color: #f1f3f5;
+  }

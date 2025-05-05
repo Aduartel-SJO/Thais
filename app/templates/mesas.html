@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Mesas{% endblock %}
 {% block content %}
-<div class="contenedorCentro">
     <div class="contenedorCagitas">
         {% for mesa in Mesas%}
         <a href="{{ url_for('dashboard.crearNota', id_mesa=mesa.id_mesa, nombre=mesa.nombre) }}"><div class="cajitas"><b><h3>{{mesa.nombre}}</h3></b></div></a>
@@ -13,7 +12,6 @@
     </div>
 
 
-</div>
 
 
 
