@@ -43,3 +43,9 @@ def crear_comida():
 def resumen():
     notas = Nota.query.all()
     return render_template("resumen.html")
+
+
+@admin_bp.route("/lista_mesas")
+def lista_mesas():
+    mesas = Mesa.query.all()
+    return render_template("listaMesas.html", mesas=mesas)

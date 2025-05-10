@@ -1,6 +1,6 @@
 body {
     margin: 0%;
-
+    font-family: Arial, sans-serif;
 }
 
 .contenedorCentro {
@@ -39,8 +39,11 @@ background: #FFFFFF;
 border: 5px solid #FF0707;
 border-radius: 100px;
 justify-content: center;
+align-content: center;
 display: flex;
+font-size: 8vh;
 align-items: center;
+margin-top: 2vh;
 }
 
 

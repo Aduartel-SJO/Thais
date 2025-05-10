@@ -1,30 +1,71 @@
-.tabla-responsive {
-    width: 96vw;
-    max-width: 80%;
-    overflow-x: auto;
-    background-color: white;
-    border-radius: 0.8vw;
-    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1);
-  }
+.table-container {
+  width: 80vw;
+  height: 80vh;
+  margin: 5vh auto;
+  overflow: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: white;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
-  }
+  /* Ocultar scrollbar en todos los navegadores principales */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE y Edge */
+}
 
-  thead {
-    background-color: #343a40;
-    color: white;
-  }
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+thead {
+  background-color: darkred;
+  color: white;
+  font-size: 2.5vh;
+  position: sticky;
+  top: 0;
+}
 
   th, td {
-    padding: 1.2vh 1vw;
+    padding: 1vh 1vw;
     text-align: left;
-    border-bottom: 1px solid #dee2e6;
-    font-size: 1.1vw;
+    border-bottom: 1px solid #ddd;
+  }
+  tbody {
+    font-size: 2vh;
+    
+  }
+  tbody tr:hover {
+    transition:  0.3s;
+    font-size: 2.5vh;
+    background-color: #f2f2f2;
   }
 
-  tbody tr:hover {
-    background-color: #f1f3f5;
+  .contenedorAcciones { 
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+  }
+
+  .botonAcciones {
+    color: white;
+    width: 3vw;
+    height: 5vh;
+    border-color: white;
+    cursor: pointer;
+    border-radius: 1vh;
+  }
+  .botonAcciones:hover {
+    filter: brightness(1.3);
+  }
+  .botonRojo {
+    
+    background-color: #dc3546;
+  }
+  
+  .botonAzul {
+  background-color: #0d6efd;
   }
