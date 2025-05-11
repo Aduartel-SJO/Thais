@@ -51,7 +51,7 @@ rel="stylesheet"
                 <td>{{usuario.nombre}}</td>
                 <td>{{usuario.email}}</td>
                 <td>
-                    {% if usuario.is_Admin == 1 %}
+                    {% if usuario.is_Admin %}
                     Administrador
                     {% else %}
                     Usuario
@@ -85,8 +85,13 @@ rel="stylesheet"
                 <label for="email">email:</label><br>
                 <input type="email" id="email" name="email" value="{{usuario.email}}" placeholder="{{usuario.email}}" required>
                       <select name="is_admin" id="is_admin">
-                        <option value="1">Administrador</option>
-                        <option value="0">Normal</option>
+                        {% if usuario.is_Admin%}
+                        <option selected value="1">Administrador</option>
+                         <option  value="0">Normal</option>
+                        {% else %}
+                        <option  value="1">Administrador</option>
+                        <option selected value="0">Normal</option>
+                        {% endif %}
                       </select>
                 <label for="contrasena">Contraseña:</label><br>
                 <input type="password" id="contrasena" name="contrasena" placeholder="no escribir si no desea cambiarla">

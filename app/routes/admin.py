@@ -68,6 +68,9 @@ def crear_comida():
 def eliminar_comida(id_comida):
     if request.method == 'POST':
         comida = Comida.query.filter(Comida.id_comida == id_comida).first()
+        comida_ing = ingredientes_plato.query.filter(ingredientes_plato.id_comida == id_comida).all()
+        for ig in comida_ing:
+            db.session.delete(ig)
         db.session.delete(comida)
         db.session.commit()
     return redirect(url_for("admin.lista_comida"))
@@ -104,15 +107,20 @@ def editar_comida(id_comida):
 def anadir_ingredientes_plato(id_comida):
     if request.method == 'POST':
         ingredientes = request.form.getlist('ingredientes[]')
+        print(ingredientes)
+        print(id_comida)
+        ip = ingredientes_plato.query.filter(ingredientes_plato.id_comida == id_comida).all()
+        for i in ip:
+            db.session.delete(i)
+            db.session.commit()
         for ingrediente in  ingredientes:
-            ip = ingredientes_plato.query.filter(ingredientes_plato.id_ingrediente == ingrediente).first()
-            if not ip:
-                nuevoIngredientePlato = ingredientes_plato (
-                    id_comida = id_comida,
-                    id_ingrediente = int(ingrediente)
-                )
-                db.session.add(nuevoIngredientePlato)
-        db.session.commit()
+            print(ip)
+            nuevoIngredientePlato = ingredientes_plato (
+                id_comida = id_comida,
+                id_ingrediente = ingrediente
+            )
+            db.session.add(nuevoIngredientePlato)
+            db.session.commit()
     return redirect(url_for("admin.lista_comida"))
 
 #zona resumen
@@ -222,7 +230,6 @@ def editar_ingredientes(id_ingrediente):
     return redirect(url_for("admin.lista_ingredientes"))
 
 @admin_bp.route("/lista_ingredientes/añadir", methods=['POST'])
-#metodo para crear mesas
 def Añadir_ingrediente():
     if request.method == "POST":
         nombreIngrediente = request.form.get("nombreIngrediente")
@@ -238,6 +245,9 @@ def delete_ingrediente(id_ingrediente):
     if request.method == "POST":
         ingrediente = Ingrediente.query.filter(Ingrediente.id_ingrediente==id_ingrediente).first()
         if ingrediente:
+            ip = ingredientes_plato.query.filter(ingredientes_plato.id_ingrediente == ingrediente.id_ingrediente).all()  
+            for i in ip:
+                db.session.delete(i)        
             db.session.delete(ingrediente)
             db.session.commit()
     return redirect(url_for("admin.lista_ingredientes"))
@@ -258,7 +268,7 @@ def anadir_usuario():
         nombre = request.form.get("nombreUsuario")
         email = request.form.get("email")
         contrasena = request.form.get("contrasena")
-        is_admin = bool(request.form.get("is_admin"))
+        is_admin = int(request.form.get("is_admin"))
         contrasena_encriptada = bcrypt.hashpw(contrasena.encode("utf-8"), bcrypt.gensalt())
         nuevoUsuario = Usuario(
             nombre = nombre,
@@ -278,7 +288,7 @@ def editar_usuario(id_usuario):
             nombre = request.form.get("nombreUsuario")
             email = request.form.get("email")
             contrasena = request.form.get("contrasena")
-            is_admin = bool(request.form.get("is_admin"))
+            is_admin = int(request.form.get("is_admin"))
             if contrasena != "":
                 usuario.contrasena  = bcrypt.hashpw(contrasena.encode("utf-8"), bcrypt.gensalt())
             usuario.nombre = nombre
