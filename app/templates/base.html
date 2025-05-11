@@ -13,22 +13,27 @@
     href="{{ url_for('static', filename='css/tabla.css') }}"
     rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 <body>
     <nav id="navThais">
         <img id="logothais" src="{{ url_for('static', filename='img/ThaisLogo.png') }}" alt="">
         <div id="navlinks">
             <div><h2><a class="colorBlanco subreayadoDinamico" href="{{ url_for('dashboard.Dashboard_mesas') }}">Mesas</a></h2></div>
-            <div><h2><a class="colorBlanco subreayadoDinamico" href="">Notas</a></h2></div>
         </div>
         <div class="selector-container">
+            {% if session.get("is_admin") %}
             <!-- hacer que se oculte con lo de admin -->
             <select id="selector" onchange="redirigir()">
                 <option value="">-- Zona Admin --</option>
                 <option value="{{ url_for('admin.lista_comida') }}">Comida y bebida</option>
                 <option value="{{ url_for('admin.lista_mesas') }}">Gestion Mesas</option>
+                <option value="{{ url_for('admin.lista_ingredientes') }}">Ingredientes</option>
+                <option value="{{ url_for('admin.lista_Usuarios') }}">Usuarios</option>
                 <option value="{{ url_for('admin.resumen') }}">Resumen</option>
             </select>
+            {% endif %}
         </div>
     </nav>
     <div class="contenedorCentro">

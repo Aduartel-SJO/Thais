@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Calendario Dieta{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/modal.css') }}"
+rel="stylesheet"
+/>
+
+<div class="tituloPagina">
+    <b>
+         Mesa: {{mesa.nombre}}
+    </b>
+</div>
+<a  href="{{ url_for('dashboard.comida_bebida', id_nota=nota.id_nota )}}" class="boton guardar botonAnadir">Añadir</a>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>¿hecho?</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for comida in nota_comida%}
+            <tr>
+                <td>{{comida.nombre}}</td>
+                <td>{{comida.cantidad}}</td>
+                <td>
+                    {% if comida.checked == 1 %}
+                    Terminado
+                    {% else %}
+                    Falta
+                    {% endif%}
+                </td>
+                <td>
+                    <div class="contenedorAcciones">
+                        <form action="{{ url_for('dashboard.check_comida', id_comida_nota=comida.id_comida_nota, id_nota=nota.id_nota) }}"  method="post">
+                            <button type="submit" class="botonAcciones botonVerde">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('dashboard.delete_comida_nota',  id_comida_nota=comida.id_comida_nota, id_nota=nota.id_nota) }}" method="post">
+                            <button type="submit" class="botonAcciones botonRojo">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock %}

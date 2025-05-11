@@ -9,4 +9,4 @@ class ComidaNota(db.Model):
     nombre = db.Column(db.String(50), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
     checked = db.Column(db.Boolean, nullable=False)
-    precio = precio = db.Column(db.Numeric(5, 2), nullable=False)
+    precio = db.Column(db.Numeric(5, 2), nullable=False)

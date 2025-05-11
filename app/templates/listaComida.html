@@ -1,40 +1,48 @@
 {% extends "base.html" %}
 {% block title %}Lista Comida y bebida{% endblock %}
 {% block content %}
-<link
-href="{{ url_for('static', filename='css/listaComida.css') }}"
-rel="stylesheet"
-/>
+<link href="{{ url_for('static', filename='css/modal.css') }}" rel="stylesheet" />
+
+<div class="tituloPagina">
+  <b>
+    Comida y bebida
+  </b>
+</div>
 <!-- Botón para abrir el modal -->
-<button id="abrirModal">Añadir</button>
+<button data-target="modalAñadir" onclick="abrirModal(event)" class="boton guardar botonAnadir">Añadir</button>
 
 <!-- Modal -->
-<div id="modal" class="modal">
+<div id="modalAñadir" class="modal">
   <div class="modal-content">
-    <form method="post" action="/tasksList/EditTask" enctype="multipart/form-data">
-      <input type="hidden" id="tipo" name="tipo" value="Comida">
-      <label for="comidaNombre">Nuevo nombre de la tarea:</label><br>
+    <form method="post" action="{{ url_for('admin.crear_comida')}}" enctype="multipart/form-data">
+      <label for="comidaNombre">Nombre comida o bebida:</label>
       <input type="text" id="comidaNombre" name="comidaNombre" required>
-      <br>
-      <label for="Alias">Alias:</label><br>
+
+      <label for="Alias">Alias:</label>
       <input type="text" id="Alias" name="Alias" required>
-      <br>
-      <label for="precio">Precio:</label><br>
+
+      <label for="precio">Precio:</label>
       <input type="text" id="precio" name="precio" required>
-      <br>
-      <label for="imagen">Imagen:</label><br>
-      <input type="file" name="imagen" accept="image/*">
-      
-      <br><br>
-      <button id="patata"type="submit">Guardar</button>
-      <button type="button" id="cerrarModal">Cerrar</button>
+      <label for="TipoComida">Selecciona Tipo</label>
+      <select name="TipoComida" id="TipoComida">
+        <option value="Comida">Comida</option>
+        <option value="Bebida">Bebida</option>
+      </select>
+      <label for="imagen">Imagen:</label>
+      <input type="file" name="imagen" >
+
+      <div class="modal-buttons">
+        <button class="boton guardar" type="submit">Guardar</button>
+        <button class="boton cerrar" data-target="modalAñadir" onclick="cerrarModal(event)"
+          type="button">Cerrar</button>
+      </div>
     </form>
   </div>
 </div>
 
 
 
-<div class="tabla-responsive">
+<div class="table-container">
   <table>
     <thead>
       <tr>
@@ -49,27 +57,103 @@ rel="stylesheet"
     <tbody>
       {%for comida in comidas%}
       <tr>
-          <td>{{comida.nombre}}</td>
-          <td>{{comida.alias}}</td>
-          <td>{{comida.precio}}</td>
-          <td>{{comida.tipo}}</td>
+        <td>{{comida.nombre}}</td>
+        <td>{{comida.alias}}</td>
+        <td>{{comida.precio}}</td>
+        <td>{{comida.tipo}}</td>
+        <td> 
+          <div class="contenedorAcciones">
+          <button data-target="modalIngredientes{{comida.id_comida}}" onclick="abrirModal(event)" class="boton guardar ">Ingredientes</button></td>
+        </div>
+        <td>
+          <div class="contenedorAcciones">
+            <button data-target="modalEditar{{comida.id_comida}}" id="editar{{comida.id_comida}}"
+              onclick="abrirModal(event)" class="botonAcciones botonAzul">
+              <i class="fa fa-edit"></i>
+            </button>
+            <form action="{{ url_for('admin.eliminar_comida', id_comida=comida.id_comida) }}" method="post">
+              <button type="submit" class="botonAcciones botonRojo">
+                <i class="fa fa-trash"></i>
+              </button>
+            </form>
+        </td>
       </tr>
       {%endfor%}
     </tbody>
   </table>
 </div>
 
+{%for comida in comidas%}
+<div id="modalEditar{{comida.id_comida}}" class="modal">
+  <div class="modal-content">
+    <form method="post" action="{{ url_for('admin.editar_comida', id_comida=comida.id_comida)}}" enctype="multipart/form-data">
+      <input type="hidden" id="tipo" name="tipo" value="Comida">
+      <label for="comidaNombre">Nombre comida o bebida:</label>
+      <input value="{{comida.nombre}}" type="text" id="comidaNombre" name="comidaNombre" required>
 
+      <label for="Alias">Alias:</label>
+      <input value="{{comida.alias}}" type="text" id="Alias" name="Alias" required>
 
-<!-- Script para manejar el modal -->
-<script>
-  document.getElementById('abrirModal').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'flex';
+      <label for="precio">Precio:</label>
+      <input  value="{{comida.precio}}" type="text" id="precio" name="precio" required>
+      <select value="{{comida.tipo}}" name="TipoComida" id="TipoComida">
+        <option value="Comida">Comida</option>
+        <option value="Bebida">Bebida</option>
+      </select>
+      <label for="imagen">Imagen:</label>
+      <input type="file" name="imagen">
+
+      <div class="modal-buttons">
+        <button class="boton guardar" type="submit">Guardar</button>
+        <button class="boton cerrar" data-target="modalEditar{{comida.id_comida}}" onclick="cerrarModal(event)"
+          type="button">Cerrar</button>
+      </div>
+    </form>
+  </div>
+  </div>
+    <div id="modalIngredientes{{comida.id_comida}}" class="modal">
+  <div class="modal-content">
+    <form method="post" action="{{ url_for('admin.anadir_ingredientes_plato', id_comida=comida.id_comida)}}">
+        <label for="multiSelectAñadir">Selecciona varias opciones:</label>
+        <select id="multiSelectAñadir" name="ingredientes[]" multiple>
+          {%for ingrediente in ingredientes%}
+          {% if ingrediente.id_ingrediente in comida.ingredientes_ids  %}
+          <option selected value="{{ingrediente.id_ingrediente}}">{{ingrediente.nombre}}</option>
+          {% else %}
+          <option value="{{ingrediente.id_ingrediente}}">{{ingrediente.nombre}}</option>
+          {% endif %}
+          {%endfor%}
+        </select>
+      <div class="modal-buttons">
+        <button class="boton guardar" type="submit">Guardar</button>
+        <button class="boton cerrar" data-target="modalIngredientes{{comida.id_comida}}" onclick="cerrarModal(event)"
+          type="button">Cerrar</button>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  {%endfor%}
+  <!-- Script para manejar el modal -->
+  <script>
+    function abrirModal(event) {
+      const id = event.target.dataset.target;
+      document.getElementById(id).style.display = 'flex';
+    }
+    function cerrarModal(event) {
+      const id = event.target.dataset.target;
+      document.getElementById(id).style.display = 'none';
+    }
+  // Esto me permite tener el multi selector en varios modales al mismo tiempo
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("select[id^='multiSelectAñadir']").forEach(function (select) {
+      new Choices(select, {
+        removeItemButton: true,
+        placeholderValue: 'Selecciona opciones...',
+        searchEnabled: false
+      });
+    });
   });
-  
-  document.getElementById('cerrarModal').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'none';
-  });
-</script>
+  </script>
 
-{% endblock %}
+  {% endblock %}

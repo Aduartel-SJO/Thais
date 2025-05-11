@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Calendario Dieta{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/modal.css') }}"
+rel="stylesheet"
+/>
+<div class="tituloPagina">
+    <b>
+        MESAS
+    </b>
+</div>
+
+<div id="modalAñadir" class="modal">
+    <div class="modal-content">
+        <form method="post" action="{{ url_for('admin.Añadir_mesa')}}">
+            <label for="nombreMesa">Nombre Mesa:</label>
+            <input type="text" id="nombreMesa" name="nombreMesa"required placeholder="Nombre de la mesa">
+            <div class="modal-buttons">
+                <button class="boton guardar" type="submit">Guardar</button>
+                <button class="boton cerrar" data-target="modalAñadir" onclick="cerrarModal(event)" type="button">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <button data-target="modalAñadir" onclick="abrirModal(event)" class="boton guardar botonAnadir">Añadir</button>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for mesa in mesas%}
+            {% if mesa.id_mesa != 99%}
+            <tr>
+                <td>{{mesa.nombre}}</td>
+                <td>
+                    <div class="contenedorAcciones">
+                        <button data-target="modalEditar{{mesa.id_mesa}}" id="editar{{mesa.id_mesa}}" onclick="abrirModal(event)" class="botonAcciones botonAzul">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <form action="{{ url_for('admin.delete_mesas', id_mesa=mesa.id_mesa) }}" method="post">
+                            <button type="submit" class="botonAcciones botonRojo">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+    {% for mesa in mesas %}
+    <div id="modalEditar{{ mesa.id_mesa }}" class="modal">
+        <div class="modal-content">
+            <form method="post" action="{{ url_for('admin.editar_mesa', id_mesa=mesa.id_mesa) }}" enctype="multipart/form-data">
+                <label for="nombreMesa">Nombre Mesa:</label><br>
+                <input type="text" id="nombreMesa" name="nombreMesa" value="{{ mesa.nombre }}" required>
+                <br><br>
+                <div class="modal-buttons">
+                    <button class="boton guardar" type="submit">Guardar</button>
+                    <button class="boton cerrar" data-target="modalEditar{{ mesa.id_mesa }}" onclick="cerrarModal(event)" type="button">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
+<script>
+  function abrirModal(event) {
+    const id = event.target.dataset.target;
+    console.log(id);
+    document.getElementById(id).style.display = 'flex';
+  }
+  function cerrarModal(event) {
+    const id = event.target.dataset.target;
+    console.log(id);
+    document.getElementById(id).style.display = 'none';
+  }
+</script>
+
+{% endblock %}

@@ -1,9 +1,11 @@
+import os
 from flask import Flask
 
 
 def create_app():
     from .models import init_db
     app = Flask(__name__)
+    app.secret_key = os.urandom(24)
     init_db(app)
     # Importar y registrar blueprints
     from .routes.dashboard import dashboard_bp

@@ -69,3 +69,12 @@ thead {
   .botonAzul {
   background-color: #0d6efd;
   }
+    .botonVerde {
+  background-color: #198754;
+  }
+
+.botonAnadir {
+margin-top: 4vh;
+padding: 1.5vh 5vw 1.5vh 5vw !important;
+flex: 0 !important;
+}

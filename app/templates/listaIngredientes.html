@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Calendario Dieta{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/modal.css') }}"
+rel="stylesheet"
+/>
+<div class="tituloPagina">
+    <b>
+        Ingredientes
+    </b>
+</div>
+
+<div id="modalAñadir" class="modal">
+    <div class="modal-content">
+        <form method="post" action="{{ url_for('admin.Añadir_ingrediente')}}">
+            <label for="nombreIngrediente">Nombre Ingrediente:</label>
+            <input type="text" id="nombreIngrediente" name="nombreIngrediente" required placeholder="Nombre del ingrediente">
+            <div class="modal-buttons">
+                <button class="boton guardar" type="submit">Guardar</button>
+                <button class="boton cerrar" data-target="modalAñadir" onclick="cerrarModal(event)" type="button">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <button data-target="modalAñadir" onclick="abrirModal(event)" class="boton guardar botonAnadir">Añadir</button>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for ingrediente in ingredientes%}
+            <tr>
+                <td>{{ingrediente.nombre}}</td>
+                <td>
+                    <div class="contenedorAcciones">
+                        <button data-target="modalEditar{{ingrediente.id_ingrediente}}" id="editar{{ingrediente.id_ingrediente}}" onclick="abrirModal(event)" class="botonAcciones botonAzul">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <form action="{{ url_for('admin.delete_ingrediente', id_ingrediente=ingrediente.id_ingrediente) }}" method="post">
+                            <button type="submit" class="botonAcciones botonRojo">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+    {% for ingrediente in ingredientes %}
+    <div id="modalEditar{{ingrediente.id_ingrediente}}" class="modal">
+        <div class="modal-content">
+            <form method="post" action="{{ url_for('admin.editar_ingredientes', id_ingrediente=ingrediente.id_ingrediente) }}">
+                <label for="nombreIngrediente">Nombre Ingrediente:</label><br>
+                <input type="text" id="nombreIngrediente" name="nombreIngrediente" value="{{ingrediente.nombre}}" required>
+                <br><br>
+                <div class="modal-buttons">
+                    <button class="boton guardar" type="submit">Guardar</button>
+                    <button class="boton cerrar" data-target="modalEditar{{ingrediente.id_ingrediente}}" onclick="cerrarModal(event)" type="button">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
+<script>
+
+    /* funciones para abrir y cerrar cualquier modal de forma dinamica
+     cogen el id a donde apunta el boton y le cambian el estilo para 
+     que aparacezca o no */
+  function abrirModal(event) {
+    const id = event.target.dataset.target;
+    document.getElementById(id).style.display = 'flex';
+  }
+  function cerrarModal(event) {
+    const id = event.target.dataset.target;
+    document.getElementById(id).style.display = 'none';
+  }
+</script>
+
+{% endblock %}

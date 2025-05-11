@@ -3,12 +3,14 @@
 {% block content %}
     <div class="contenedorCagitas">
         {% for mesa in Mesas%}
-        <a href="{{ url_for('dashboard.crearNota', id_mesa=mesa.id_mesa, nombre=mesa.nombre) }}"><div class="cajitas"><b><h3>{{mesa.nombre}}</h3></b></div></a>
+        {% if mesa.id_mesa != 99%}
+        <a class="tamañoletara3  colorrojo subreayadoDinamico" href="{{ url_for('dashboard.crearNota', id_mesa=mesa.id_mesa) }}"><div class="cajitas"><b><h3>{{mesa.nombre}}</h3></b></div></a>
+        {% endif %}
         {% endfor %}
     
     </div>
     <div class="tituloPagina">
-        <b><h1>hola {{usuario.nombre}}</h1></b>
+        <b><a class=" colorrojo subreayadoDinamico" href="{{ url_for('dashboard.crearNota', id_mesa=99, nombre='Para llevar') }}">Para llevar</a></b>
     </div>
 
 

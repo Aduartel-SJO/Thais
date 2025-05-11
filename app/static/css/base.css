@@ -17,7 +17,18 @@ body {
     display: grid;
     grid-template-columns:  repeat(5,auto);
     gap:2vw;
+    
  
+}
+
+.tamañoletara3 {
+    font-size: 3vh;
+}
+.imgcajita {
+    width: 100%;
+  height: 100%;
+  object-fit: fill; 
+  cursor: pointer;
 }
 
 .cajitas {
@@ -30,6 +41,15 @@ display: flex;
 justify-content: center;
 align-items: center;
 
+
+}
+
+.cajitas button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 .tituloPagina {
@@ -41,7 +61,7 @@ border-radius: 100px;
 justify-content: center;
 align-content: center;
 display: flex;
-font-size: 8vh;
+font-size: 6vh;
 align-items: center;
 margin-top: 2vh;
 }
@@ -67,6 +87,9 @@ margin-top: 2vh;
     color: white;
 }
 
+.colorrojo {
+    color: darkred;
+}
 .subreayadoDinamico {
     text-decoration: none;
 }
@@ -104,4 +127,8 @@ select {
 
 select:hover {
     border-color: darkred;
+}
+
+.marginbot {
+margin-bottom: 6vh;
 }

@@ -6,7 +6,7 @@ import bcrypt
 @auth_bp.route('/', methods=["GET", "POST"])
 def login():
     if "user" in session:
-        return redirect(url_for("home"))
+        return redirect(url_for('dashboard.Dashboard_mesas'))
 
     if request.method == "POST":
         email = request.form["email"]
@@ -16,7 +16,7 @@ def login():
 
         if usuario_encontrado and bcrypt.checkpw(contrasena.encode("utf-8"), usuario_encontrado.contrasena.encode("utf-8")):
             session["user"] = usuario_encontrado.id_usuario
-            session["is_admin"] = usuario_encontrado.is_admin
+            session["is_admin"] = usuario_encontrado.is_Admin
             user_id = session["user"]
 
             return redirect(url_for("dashboard.Dashboard_mesas"))

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Calendario Dieta{% endblock %}
+{% block content %}
+<link
+href="{{ url_for('static', filename='css/modal.css') }}"
+rel="stylesheet"
+/>
+<div class="tituloPagina">
+    <b>
+        Usuarios
+    </b>
+</div>
+
+<div id="modalAñadir" class="modal">
+    <div class="modal-content">
+        <form method="post" action="{{ url_for('admin.anadir_usuario')}}">
+                <label for="nombreUsuario">Nombre:</label><br>
+                <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+                <label for="email">email:</label><br>
+                <input type="email" id="email" name="email" required>
+                      <select name="is_admin" id="is_admin">
+                        <option value="1">Administrador</option>
+                        <option value="0">Normal</option>
+                      </select>
+                <label for="contrasena">Contraseña:</label><br>
+                <input type="password" id="contrasena" name="contrasena">
+            <div class="modal-buttons">
+                <button class="boton guardar" type="submit">Guardar</button>
+                <button class="boton cerrar" data-target="modalAñadir" onclick="cerrarModal(event)" type="button">Cerrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <button data-target="modalAñadir" onclick="abrirModal(event)" class="boton guardar botonAnadir">Añadir</button>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Admisnistrador</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for usuario in usuarios%}
+            <tr>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.email}}</td>
+                <td>
+                    {% if usuario.is_Admin == 1 %}
+                    Administrador
+                    {% else %}
+                    Usuario
+                    {% endif%}
+
+                </td>
+                <td>
+                    <div class="contenedorAcciones">
+                        <button data-target="modalEditar{{usuario.id_usuario}}" id="editar{{usuario.id_usuario}}" onclick="abrirModal(event)" class="botonAcciones botonAzul">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <form action="{{ url_for('admin.eliminar_usuario', id_usuario=usuario.id_usuario) }}" method="post">
+                            <button type="submit" class="botonAcciones botonRojo">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+    {%for usuario in usuarios%}
+    <div id="modalEditar{{usuario.id_usuario}}" class="modal">
+        <div class="modal-content">
+            <form method="post" action="{{ url_for('admin.editar_usuario', id_usuario=usuario.id_usuario) }}" enctype="multipart/form-data">
+                <label for="nombreUsuario">Nombre:</label><br>
+                <input type="text" id="nombreUsuario" name="nombreUsuario" value="{{usuario.nombre}}" placeholder="{{usuario.nombre}}" required>
+                <label for="email">email:</label><br>
+                <input type="email" id="email" name="email" value="{{usuario.email}}" placeholder="{{usuario.email}}" required>
+                      <select name="is_admin" id="is_admin">
+                        <option value="1">Administrador</option>
+                        <option value="0">Normal</option>
+                      </select>
+                <label for="contrasena">Contraseña:</label><br>
+                <input type="password" id="contrasena" name="contrasena" placeholder="no escribir si no desea cambiarla">
+                <div class="modal-buttons">
+                    <button class="boton guardar" type="submit">Guardar</button>
+                    <button class="boton cerrar" data-target="modalEditar{{usuario.id_usuario}}" onclick="cerrarModal(event)" type="button">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
+<script>
+  function abrirModal(event) {
+    const id = event.target.dataset.target;
+    console.log(id);
+    document.getElementById(id).style.display = 'flex';
+  }
+  function cerrarModal(event) {
+    const id = event.target.dataset.target;
+    console.log(id);
+    document.getElementById(id).style.display = 'none';
+  }
+</script>
+
+{% endblock %}

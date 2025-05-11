@@ -7,43 +7,43 @@ rel="stylesheet"
 />
 
 <div class="tituloPagina">
-    <b><h1>Resumen</h1></b>
+    <b>Resumen</b>
 </div>
-<form action="">
-    <div>
-        <div>
-            <label for="desde">Desde:</label><br>
-            <input id="desde" name="desde" type="date">
-    
-        </div>
-        <div>
-            <label for="hasta">Hasta:</label><br>
-            <input id="hasta" name="hasta" type="date">
-            
-        </div>
+<form action="{{ url_for('admin.resumen') }}" method="post" id="form-fechas">
+  <div class="formulario-fechas">
+    <div class="campo-fecha">
+      <label for="desde">Desde:</label>
+      <input value="{{ desde }}" id="desde" name="desde" type="date">
     </div>
-
+    <div class="campo-fecha">
+      <label for="hasta">Hasta:</label>
+      <input value="{{ hasta }}" id="hasta" name="hasta" type="date">
+    </div>
+    <div class="boton-enviar">
+      <button type="submit">Filtrar</button>
+    </div>
+  </div>
 </form>
 <div id="contenedorResumen">
     <div>
-        <div><h2>Numero de mesas</h2></div>
+        <div><h2>Numero de mesas:</h2></div>
         <div class="contenedorImagen">
             <img src="/static/img/papeles_apliados.png" class="imagenFondo" alt="Mesa redonda">
-            <span class="textoEncima">12</span>
+            <span class="textoEncima">{{total_notas}}</span>
           </div>
     </div>
     <div>
-        <div><h2>Numero de mesas</h2></div>
+        <div><h2>Promedio mesas:</h2></div>
         <div class="contenedorImagen">
             <img src="/static/img/mesa_redonda.png" class="imagenFondo" alt="Mesa redonda">
-            <span class="textoEncima">12</span>
+            <span class="textoEncima">{{promedio_mesa}}€</span>
           </div>   
     </div>
     <div>
-        <div><h2>Numero de mesas</h2></div>
+        <div><h2>Ganancias totales:</h2></div>
         <div class="contenedorImagen">
             <img src="/static/img/monedas.png" class="imagenFondo" alt="Mesa redonda">
-            <span class="textoEncima">12€</span>
+            <span class="textoEncima">{{dinero_total}}€</span>
           </div>   
     </div>
 </div>

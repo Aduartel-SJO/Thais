@@ -1,6 +1,43 @@
 {% extends "base.html" %}
 {% block title %}Calendario Dieta{% endblock %}
 {% block content %}
+<link
+href="{{ url_for('static', filename='css/login.css') }}"
+rel="stylesheet"
+/>
+    <div class="login-container" id="LoginContainer">
+<div class="tituloPagina marginbot">
+    <b>
+        Iniciar sesion
+    </b>
+</div>
+      <!-- Display error message -->
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="POST" action="{{url_for('auth.login')}}">
+        <div class="input-lailine-container">
+          <span class="name-input">Usuario</span>
+          <input type="email" name="email" class="input-line" required>
+        </div>
+        
+        <div class="input-line-container">
+          <span class="name-input">Contraseña</span>
+          <input type="password" name="contrasena" class="input-line" required>
+        </div>
+
+        <button type="submit" class="button-login">Iniciar</button>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
 
 
 {% endblock %}
