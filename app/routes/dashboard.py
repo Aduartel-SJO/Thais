@@ -44,6 +44,7 @@ def anadir_comida_nota(id_nota, id_comida):
         ingrediente_comida = Ingrediente.query.filter(Ingrediente.id_ingrediente == comida.id_comida).all()
         nombre=comida.nombre
         print(nombre)
+        # modificamos el nombre para que contenga los ingredientes restantes de la comida
         if ingredientes:
                 for ing in ingredientes:
                     nombre = nombre + " " +  ing
@@ -101,7 +102,7 @@ def abrir_nota(id_nota):
     return render_template("nota_especifica.html", mesa=mesa, nota=nota, nota_comida=nota_comida)
 
 #metodo que crea la nota y nos redirije a la ventana de dicha nota
-@dashboard_bp.route('/crear_nota/<int:id_mesa>', )
+@dashboard_bp.route('/crear_nota/<int:id_mesa>')
 def crearNota(id_mesa):
         if "user" not in session:
             return redirect(url_for("auth.login"))
@@ -120,3 +121,12 @@ def crearNota(id_mesa):
             return redirect(url_for("dashboard.abrir_nota", id_nota=id_generado))
         else:
             return redirect(url_for("dashboard.abrir_nota", id_nota=nota.id_nota))
+
+# funcion que hace que la nota pase a estar desactivada y asi dar paso a otra
+@dashboard_bp.route('/jubilar_nota/<int:id_nota>')
+def jubilar_nota(id_nota):
+        nota = Nota.query.filter(Nota.id_nota == id_nota, Nota.is_Active == 1).first()
+        if nota:
+            nota.is_Active = 0
+            db.session.commit()
+        return redirect(url_for("dashboard.Dashboard_mesas"))

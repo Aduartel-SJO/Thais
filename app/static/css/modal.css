@@ -57,6 +57,12 @@ input {
   color: white;
 }
 
+.boton.eliminar {
+  background-color: darkred;
+  color: white;
+}
+
+
 .boton.guardar:hover {
   filter: brightness(1.3);
 }

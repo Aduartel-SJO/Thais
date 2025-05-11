@@ -37,6 +37,7 @@ def lista_comida():
 
     return render_template("listaComida.html", comidas=comidas, ingredientes=ingredientes)
 
+# metodo para crear comida
 @admin_bp.route("/lista_comida/crear_comida", methods=['POST'])
 def crear_comida():
     if request.method == 'POST':
@@ -47,6 +48,7 @@ def crear_comida():
         archivo = request.files.get('imagen')
         nombreArchivo = ""
         ruta_completa = ""
+        #crea el archivo si no existe 
         if archivo and Comprobar_Archivo(archivo.filename):
             nombreArchivo = secure_filename(archivo.filename)
             ruta_completa = os.path.join(CARPETA_IMG, nombreArchivo)
@@ -64,10 +66,13 @@ def crear_comida():
         
     return redirect(url_for("admin.lista_comida"))
 
+#metodo para elimar la comida
 @admin_bp.route("/lista_comida/eliminar_comida/<int:id_comida>" , methods=['POST'])
 def eliminar_comida(id_comida):
     if request.method == 'POST':
+        #cojemos la comida en cuestion
         comida = Comida.query.filter(Comida.id_comida == id_comida).first()
+        # cojemos los ingredientes asignados y tambien los eliminamos
         comida_ing = ingredientes_plato.query.filter(ingredientes_plato.id_comida == id_comida).all()
         for ig in comida_ing:
             db.session.delete(ig)
@@ -75,9 +80,11 @@ def eliminar_comida(id_comida):
         db.session.commit()
     return redirect(url_for("admin.lista_comida"))
 
+#metodo para editar los valores de la comida
 @admin_bp.route("/lista_comida/editar_comida/<int:id_comida>", methods=['POST'])
 def editar_comida(id_comida):
     if request.method == 'POST':
+        # coge la comida en cuestion
         comida = Comida.query.filter(Comida.id_comida == id_comida).first()
         if comida:
             nombreComida = request.form.get("comidaNombre")
@@ -87,6 +94,7 @@ def editar_comida(id_comida):
             archivo = request.files.get('imagen')
             nombreArchivo = ""
             ruta_completa = ""
+            #crea el archivo si no existe 
             if archivo and Comprobar_Archivo(archivo.filename):
                 nombreArchivo = secure_filename(archivo.filename)
                 ruta_completa = os.path.join(CARPETA_IMG, nombreArchivo)
@@ -104,11 +112,13 @@ def editar_comida(id_comida):
     return redirect(url_for("admin.lista_comida"))
 
 @admin_bp.route("/lista_comida/AnadirIngredientes/<int:id_comida>", methods=['POST'])
+#metodo para añafir ingredientes al plato
 def anadir_ingredientes_plato(id_comida):
     if request.method == 'POST':
         ingredientes = request.form.getlist('ingredientes[]')
         print(ingredientes)
         print(id_comida)
+        #cogemos los que ya tenia y los eliminamos para volver a crearlos
         ip = ingredientes_plato.query.filter(ingredientes_plato.id_comida == id_comida).all()
         for i in ip:
             db.session.delete(i)
@@ -171,6 +181,7 @@ def lista_mesas():
 #metodo para editar mesas
 def editar_mesa(id_mesa):
     if request.method == "POST":
+        #coje la mesa en cuestion
         mesa = Mesa.query.filter(Mesa.id_mesa==id_mesa).first()
         if mesa:
             #cogemos los valores
@@ -188,16 +199,18 @@ def editar_mesa(id_mesa):
 def Añadir_mesa():
     if request.method == "POST":
         nombreMesa = request.form.get("nombreMesa")
-
+        #nueva mesa
         nuevaMesa = Mesa(nombre=nombreMesa) #creamos la nueva mesa
 
         db.session.add(nuevaMesa) 
         db.session.commit() #guardamos los cambios
     return redirect(url_for("admin.lista_mesas"))
 
+#metodo para eliminar mesas
 @admin_bp.route("/lista_mesas/eliminar/<int:id_mesa>", methods=['POST'])
 def delete_mesas(id_mesa):
     if request.method == "POST":
+        #coje la mesa en cuestion
         mesa = Mesa.query.filter(Mesa.id_mesa==id_mesa).first()
         if mesa:
             db.session.delete(mesa)
@@ -228,23 +241,25 @@ def editar_ingredientes(id_ingrediente):
             db.session.commit() #guardamos los cambios
 
     return redirect(url_for("admin.lista_ingredientes"))
-
+#meto para añadir ingredientes
 @admin_bp.route("/lista_ingredientes/añadir", methods=['POST'])
 def Añadir_ingrediente():
     if request.method == "POST":
         nombreIngrediente = request.form.get("nombreIngrediente")
-
+        #nuevo ingrediente
         nuevoIngrediente = Ingrediente(nombre=nombreIngrediente) #creamos el ingrediente
 
         db.session.add(nuevoIngrediente) 
         db.session.commit() #guardamos los cambios
     return redirect(url_for("admin.lista_ingredientes"))
-
+# metodo para eliminar ingredientes
 @admin_bp.route("/lista_ingredientes/eliminar/<int:id_ingrediente>", methods=['POST'])
 def delete_ingrediente(id_ingrediente):
     if request.method == "POST":
+        #cojo el ingrediente para eliminarlo
         ingrediente = Ingrediente.query.filter(Ingrediente.id_ingrediente==id_ingrediente).first()
         if ingrediente:
+            #cojo todos los registros que estuvieran con los platos y lugo los elimino
             ip = ingredientes_plato.query.filter(ingredientes_plato.id_ingrediente == ingrediente.id_ingrediente).all()  
             for i in ip:
                 db.session.delete(i)        
@@ -261,7 +276,7 @@ def lista_Usuarios():
     # cogemos todos los usuarios
     usuarios = Usuario.query.all()
     return render_template("listaUsuarios.html", usuarios=usuarios)
-
+#metodo para añadir usuarios
 @admin_bp.route("/usuarios/anadir",  methods=['POST'] )
 def anadir_usuario():
     if request.method == "POST":
@@ -280,9 +295,11 @@ def anadir_usuario():
         db.session.commit()
     return redirect(url_for("admin.lista_Usuarios"))
 
+# metodo para editar usuarios
 @admin_bp.route("/usuarios/editar/<int:id_usuario>",  methods=['POST'])
 def editar_usuario(id_usuario):
     if request.method == "POST":
+        #cojemos el usuario
         usuario = Usuario.query.filter(Usuario.id_usuario == id_usuario).first()
         if usuario:
             nombre = request.form.get("nombreUsuario")
@@ -299,9 +316,11 @@ def editar_usuario(id_usuario):
 
     return redirect(url_for("admin.lista_Usuarios"))
 
+#metodo para eliminar usuarios
 @admin_bp.route("/usuarios/eliminar/<int:id_usuario>",  methods=['POST'])
 def eliminar_usuario(id_usuario):
     if request.method == "POST":
+        #cojemos al usuario y lo eliminamos
         usuario = Usuario.query.filter(Usuario.id_usuario == id_usuario).first()
         if usuario:
             db.session.delete(usuario)
